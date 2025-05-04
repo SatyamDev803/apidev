@@ -1,0 +1,13 @@
+# Virtual environment folders
+venv/
+.venv/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# macOS system files
+.DS_Store

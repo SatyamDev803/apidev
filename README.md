@@ -81,7 +81,3 @@ apidev/
 ## Environment Variables
 
 - Create a `.env` file to store sensitive information like database credentials.
-
-## License
-
-This project is licensed under the MIT License.

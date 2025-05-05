@@ -6,9 +6,10 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
 
 - **FastAPI** for building the API.
 - **PostgreSQL** as the database for storing data.
-- **Psycopg2** for database interaction.
+- **SQLAlchemy** for ORM-based database interaction.
 - Basic CRUD operations for posts.
 - Database connection pooling and error handling.
+- Interactive API documentation with Swagger UI.
 
 ## Prerequisites
 
@@ -37,15 +38,9 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
 
 4. **Set up the PostgreSQL database**:
    - Create a database named `apidev`.
-   - Update the database credentials in `main.py`:
+   - Update the database credentials in `app/database.py`:
      ```python
-     conn = psycopg2.connect(
-         host='localhost',
-         database='apidev',
-         user='postgres',
-         password='rootuser',
-         cursor_factory=RealDictCursor
-     )
+     DATABASE_URL = "postgresql://<username>:<password>@<host>/<database_name>"
      ```
 
 5. **Run the application**:
@@ -62,6 +57,9 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
 apidev/
 ├── app/
 │   ├── main.py          # Main application file
+│   ├── database.py      # Database configuration and session management
+│   ├── models.py        # SQLAlchemy models
+│   ├── schemas.py       # Pydantic schemas for request/response validation
 │   ├── __init__.py      # Marks the app directory as a package
 ├── .gitignore           # Git ignore file
 ├── README.md            # Project documentation
@@ -80,4 +78,11 @@ apidev/
 
 ## Environment Variables
 
-- Create a `.env` file to store sensitive information like database credentials.
+- Create a `.env` file to store sensitive information like database credentials:
+  ```
+  DATABASE_URL=postgresql://<username>:<password>@<host>/<database_name>
+  ```
+
+## License
+
+This project is licensed under the MIT License.

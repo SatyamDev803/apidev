@@ -24,32 +24,6 @@ ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 
-# def create_access_token(data: dict):
-#     to_encode = data.copy()
-#     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-#     to_encode.update({"exp" : expire})
-
-#     encoded_jwt =  jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
-#     return encoded_jwt
-
-
-# def verify_access_token(token: str, credentials_exceptions):
-
-#     try:
-#         payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
-#         id: str = payload.get("user_id")
-
-#         if id is None:
-#             raise credentials_exceptions
-#         token_data = TokenData(id=id)
-    
-#     except PyJWTError as e:
-#         raise credentials_exceptions
-
-#     return token_data
-
-
 def create_access_token(data: dict):
     to_encode = data.copy()
     to_encode["user_id"] = str(to_encode["user_id"])  # Ensure user_id is a string

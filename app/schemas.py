@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, conint
 from datetime import datetime
 
 
@@ -41,9 +41,23 @@ class Post(PostBase):
         from_attributes = True
 
 
+class PostOut(BaseModel):
+    Post: Post
+    Votes: int
+
+    class Config:
+        from_attributes = True
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str 
 
 class TokenData(BaseModel):
     id: Optional[str] = None 
+
+
+class Vote(BaseModel):
+    post_id: int
+    # dir: conint(le=1)
+    dir: int = Field(..., le=1)

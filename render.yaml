@@ -38,4 +38,6 @@ services:
   - type: postgres
     name: postgres
     plan: free
-    ipAllowList: []
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: allow external connections

@@ -2,8 +2,40 @@ services:
   - type: web
     name: apidev
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install -r requirements.txt
+      alembic upgrade head
     startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     plan: free
     branch: main
     autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: postgres
+          property: connectionString
+      - key: DATABASE_HOSTNAME
+        fromService:
+          name: postgres
+          type: postgres
+          property: host
+      - key: DATABASE_NAME
+        fromService:
+          name: postgres
+          type: postgres
+          property: database
+      - key: DATABASE_USERNAME
+        fromService:
+          name: postgres
+          type: postgres
+          property: user
+      - key: DATABASE_PASSWORD
+        fromService:
+          name: postgres
+          type: postgres
+          property: password
+
+  - type: postgres
+    name: postgres
+    plan: free
+    ipAllowList: []

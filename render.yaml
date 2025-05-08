@@ -4,7 +4,6 @@ services:
     env: python
     buildCommand: |
       pip install -r requirements.txt
-      PGPASSWORD=${DATABASE_PASSWORD} psql -h ${DATABASE_HOSTNAME} -U ${DATABASE_USERNAME} -d postgres -c 'CREATE DATABASE apidev;'
       alembic upgrade head
     startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     plan: free

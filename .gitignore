@@ -2,9 +2,20 @@
 venv/
 .venv/
 
-# Byte-compiled / cache files
+# Python cache files
 __pycache__/
+*/__pycache__/
+*/*/__pycache__/
 *.py[cod]
+*.pyc
+*.pyo
+*.pyd
+
+# Build and distribution
+.Python
+build/
+dist/
+*.egg-info/
 
 # Environment variables
 .env
@@ -12,5 +23,5 @@ __pycache__/
 # macOS system files
 .DS_Store
 
-# Additional files 
+# Additional files
 notes.txt

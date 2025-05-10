@@ -31,3 +31,8 @@ gunicorn.service
 
 #Nginx Setup
 nginx
+
+#Docker configuration files 
+Dockerfile
+docker-compose-dev.yml
+docker-compose-prod.yml

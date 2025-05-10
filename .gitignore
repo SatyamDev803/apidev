@@ -28,3 +28,6 @@ notes.txt
 
 #Gunicorn service
 gunicorn.service
+
+#Nginx Setup
+nginx

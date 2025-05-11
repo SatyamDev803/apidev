@@ -83,24 +83,29 @@ def create_posts(post: PostCreate, db: Session = Depends(get_db), current_user: 
 
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
-    # cursor.execute(""" DELETE FROM posts WHERE id = %s RETURNING * """, (str(id),))
-    # deleted_post = cursor.fetchone()
-    # conn.commit()
-
+    """
+    Delete a post by ID
+    """
+    # Query the post
     post_query = db.query(models.Post).filter(models.Post.id == id)
-
     post = post_query.first()
 
+    # Check if post exists
     if post is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Post with id {id} was not found"
         )
     
+    # Check if user owns the post
     if post.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not Authorized to perform requested action")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to perform requested action"
+        )
     
-    post.delete(synchronize_session=False)
+    # Delete the post using the query
+    post_query.delete(synchronize_session=False)
     db.commit()
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)

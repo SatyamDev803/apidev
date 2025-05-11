@@ -1,6 +1,8 @@
 # Virtual environment folders
 venv/
 .venv/
+env/
+ENV/
 
 # Python cache files
 __pycache__/
@@ -16,23 +18,77 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+*.egg
+MANIFEST
 
-# Environment variables
+# Environment variables and secrets
 .env
+.env.local
+.env.*.local
+*.env
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 
 # macOS system files
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
 
-# Additional files
-notes.txt
+# Test coverage and reports
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage/
 
-#Gunicorn service
+# Database files
+*.sqlite3
+*.db
+
+# Log files
+*.log
+logs/
+log/
+
+# Additional project files
+TODO.md
+NOTES.md
+
+# Deployment files
 gunicorn.service
+nginx/
+deploy/
 
-#Nginx Setup
-nginx
-
-#Docker configuration files 
+# Docker configuration files 
 Dockerfile
-docker-compose-dev.yml
-docker-compose-prod.yml
+docker-compose*.yml
+.docker/
+
+# Temporary files
+*.bak
+*.tmp
+*.temp
+.*.swp
+*~
+
+# Local development settings
+local_settings.py
+
+# Migration files (uncomment if you want to ignore migrations)
+# alembic/versions/
+
+# Documentation builds
+docs/_build/
+doc/build/
+
+# Virtual environment marker
+pyvenv.cfg

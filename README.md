@@ -1,24 +1,33 @@
 # API Development with FastAPI and PostgreSQL
 
-This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It provides endpoints for managing posts, including creating, reading, updating, and deleting posts.
+This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It provides endpoints for managing posts, users, votes, and authentication.
 
 ## Features
 
-- **FastAPI** for building the API
-- **PostgreSQL** as the database for storing data
-- **SQLAlchemy** for ORM-based database interaction
+- **FastAPI** for building high-performance REST APIs
+- **PostgreSQL** as the database backend
+- **SQLAlchemy** for ORM-based database operations
 - **Pydantic** for data validation and serialization
-- Basic CRUD operations for posts
-- Database connection pooling and error handling
-- Interactive API documentation with Swagger UI
-- Environment variables support for configuration
-- Asynchronous database operations
+- **Alembic** for database migrations
+- **JWT** based authentication
+- **OAuth2** with Password flow
+- **Docker** support for containerization
+- **Nginx** for reverse proxy
+- **Gunicorn** for production deployment
+- Full CRUD operations for posts and users
+- Voting system for posts
+- Database connection pooling
+- Error handling and logging
+- Interactive API documentation (Swagger UI)
+- Environment-based configuration
+- Comprehensive test suite
+- CI/CD ready with render.yaml
 
 ## Prerequisites
 
 - Python 3.8 or higher
 - PostgreSQL installed and running
-- A virtual environment (recommended)
+- Docker (optional, for containerization)
 - pip package manager
 
 ## Setup Instructions
@@ -40,75 +49,133 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
    pip install -r requirements.txt
    ```
 
-4. **Configure the environment**:
-   - Create a `.env` file in the project root:
+4. **Configure environment variables**:
+   Create a `.env` file with:
    ```env
-   DATABASE_URL=postgresql://<username>:<password>@<host>/<database_name>
+   DATABASE_HOSTNAME=localhost
+   DATABASE_PORT=5432
+   DATABASE_PASSWORD=your_password
+   DATABASE_NAME=apidev
+   DATABASE_USERNAME=postgres
+   SECRET_KEY=your_secret_key
+   ALGORITHM=HS256
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
    ```
 
-5. **Set up the PostgreSQL database**:
-   - Create a database named `apidev`
-   - Update the database credentials in your `.env` file
-   - The application will handle table creation automatically
+5. **Database Setup**:
+   ```bash
+   # Create main and test databases
+   createdb apidev
+   createdb apidev_test
+
+   # Run migrations
+   alembic upgrade head
+   ```
 
 6. **Run the application**:
    ```bash
+   # Development
    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-   ```
 
-7. **Access the API**:
-   - Swagger UI: `http://127.0.0.1:8000/docs`
-   - ReDoc: `http://127.0.0.1:8000/redoc`
+   # Production
+   gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app
+   ```
 
 ## Project Structure
 
 ```
 apidev/
-├── app/
-│   ├── __init__.py      # Package initializer
-│   ├── main.py          # Application entry point
-│   ├── database.py      # Database configuration
+├── alembic/              # Database migrations
+│   └── versions/         # Migration versions
+├── app/                  # Main application
+│   ├── routers/         # API routes
+│   │   ├── auth.py     # Authentication
+│   │   ├── post.py     # Post operations
+│   │   ├── user.py     # User operations
+│   │   └── vote.py     # Voting system
+│   ├── __init__.py     
+│   ├── config.py        # Configuration
+│   ├── database.py      # Database setup
+│   ├── main.py         # App entry point
 │   ├── models.py        # SQLAlchemy models
-│   ├── schemas.py       # Pydantic schemas
-│   └── crud/            # CRUD operations
-├── tests/               # Unit and integration tests
-├── .env                 # Environment variables
-├── .gitignore          # Git ignore file
-├── requirements.txt     # Project dependencies
-└── README.md           # Project documentation
+│   ├── oauth2.py        # Authentication
+│   ├── schemas.py       # Pydantic models
+│   └── utils.py         # Utilities
+├── tests/               # Test suite
+├── docker-compose-dev.yml   # Docker dev config
+├── docker-compose-prod.yml  # Docker prod config
+├── Dockerfile           # Docker build
+├── gunicorn.service    # Systemd service
+├── nginx/              # Nginx config
+└── render.yaml         # Render deployment
 ```
 
 ## API Endpoints
 
-| Method | Endpoint       | Description              | Status Codes    |
-|--------|---------------|--------------------------|----------------|
-| GET    | `/`           | Welcome message          | 200           |
-| GET    | `/posts`      | Retrieve all posts       | 200           |
-| POST   | `/posts`      | Create a new post        | 201, 400      |
-| GET    | `/posts/{id}` | Retrieve a specific post | 200, 404      |
-| PUT    | `/posts/{id}` | Update a specific post   | 200, 404      |
-| DELETE | `/posts/{id}` | Delete a specific post   | 204, 404      |
+| Method | Endpoint          | Description              | Auth Required |
+|--------|------------------|--------------------------|--------------|
+| POST   | `/users/`        | Create user              | No           |
+| GET    | `/users/{id}`    | Get user                 | No           |
+| POST   | `/login`         | Login user               | No           |
+| GET    | `/posts`         | Get all posts            | Yes          |
+| POST   | `/posts`         | Create post              | Yes          |
+| GET    | `/posts/{id}`    | Get post                 | Yes          |
+| PUT    | `/posts/{id}`    | Update post              | Yes          |
+| DELETE | `/posts/{id}`    | Delete post              | Yes          |
+| POST   | `/vote`          | Vote on post             | Yes          |
 
 ## Development
 
 ### Running Tests
 ```bash
-pytest tests/
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_users.py -v
+
+# Run with output
+pytest -v -s
 ```
 
-### Code Formatting
+### Docker Development
 ```bash
-black app/
-isort app/
+# Development environment
+docker-compose -f docker-compose-dev.yml up -d
+
+# Production environment
+docker-compose -f docker-compose-prod.yml up -d
+```
+
+### Database Migrations
+```bash
+# Create new migration
+alembic revision -m "description"
+
+# Run migrations
+alembic upgrade head
+
+# Rollback
+alembic downgrade -1
 ```
 
 ## Error Handling
 
-The API implements proper error handling for:
-- Database connection errors
-- Invalid request data
+The API implements comprehensive error handling for:
+- Authentication/Authorization errors
+- Database connection issues
 - Resource not found
-- Authentication errors (if implemented)
+- Validation errors
+- Duplicate entries
+- Foreign key violations
+
+## Deployment
+
+The project includes configuration for:
+- Docker containerization
+- Nginx as reverse proxy
+- Gunicorn as WSGI server
+- Render.com deployment
 
 ## Contributing
 
@@ -117,3 +184,7 @@ The API implements proper error handling for:
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License.

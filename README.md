@@ -4,18 +4,22 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
 
 ## Features
 
-- **FastAPI** for building the API.
-- **PostgreSQL** as the database for storing data.
-- **SQLAlchemy** for ORM-based database interaction.
-- Basic CRUD operations for posts.
-- Database connection pooling and error handling.
-- Interactive API documentation with Swagger UI.
+- **FastAPI** for building the API
+- **PostgreSQL** as the database for storing data
+- **SQLAlchemy** for ORM-based database interaction
+- **Pydantic** for data validation and serialization
+- Basic CRUD operations for posts
+- Database connection pooling and error handling
+- Interactive API documentation with Swagger UI
+- Environment variables support for configuration
+- Asynchronous database operations
 
 ## Prerequisites
 
 - Python 3.8 or higher
 - PostgreSQL installed and running
 - A virtual environment (recommended)
+- pip package manager
 
 ## Setup Instructions
 
@@ -25,7 +29,7 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
    cd apidev
    ```
 
-2. **Create a virtual environment**:
+2. **Create and activate virtual environment**:
    ```bash
    python3 -m venv venv
    source venv/bin/activate  # On macOS/Linux
@@ -36,53 +40,80 @@ This project is a RESTful API built using **FastAPI** and **PostgreSQL**. It pro
    pip install -r requirements.txt
    ```
 
-4. **Set up the PostgreSQL database**:
-   - Create a database named `apidev`.
-   - Update the database credentials in `app/database.py`:
-     ```python
-     DATABASE_URL = "postgresql://<username>:<password>@<host>/<database_name>"
-     ```
-
-5. **Run the application**:
-   ```bash
-   uvicorn app.main:app --reload
+4. **Configure the environment**:
+   - Create a `.env` file in the project root:
+   ```env
+   DATABASE_URL=postgresql://<username>:<password>@<host>/<database_name>
    ```
 
-6. **Access the API documentation**:
-   - Open your browser and navigate to `http://127.0.0.1:8000/docs` for the Swagger UI.
+5. **Set up the PostgreSQL database**:
+   - Create a database named `apidev`
+   - Update the database credentials in your `.env` file
+   - The application will handle table creation automatically
+
+6. **Run the application**:
+   ```bash
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+
+7. **Access the API**:
+   - Swagger UI: `http://127.0.0.1:8000/docs`
+   - ReDoc: `http://127.0.0.1:8000/redoc`
 
 ## Project Structure
 
 ```
 apidev/
 ├── app/
-│   ├── main.py          # Main application file
-│   ├── database.py      # Database configuration and session management
+│   ├── __init__.py      # Package initializer
+│   ├── main.py          # Application entry point
+│   ├── database.py      # Database configuration
 │   ├── models.py        # SQLAlchemy models
-│   ├── schemas.py       # Pydantic schemas for request/response validation
-│   ├── __init__.py      # Marks the app directory as a package
-├── .gitignore           # Git ignore file
-├── README.md            # Project documentation
+│   ├── schemas.py       # Pydantic schemas
+│   └── crud/            # CRUD operations
+├── tests/               # Unit and integration tests
+├── .env                 # Environment variables
+├── .gitignore          # Git ignore file
+├── requirements.txt     # Project dependencies
+└── README.md           # Project documentation
 ```
 
-## Endpoints
+## API Endpoints
 
-| Method | Endpoint       | Description              |
-|--------|----------------|--------------------------|
-| GET    | `/`            | Welcome message         |
-| GET    | `/posts`       | Retrieve all posts      |
-| POST   | `/posts`       | Create a new post       |
-| GET    | `/posts/{id}`  | Retrieve a specific post|
-| DELETE | `/posts/{id}`  | Delete a specific post  |
-| PUT    | `/posts/{id}`  | Update a specific post  |
+| Method | Endpoint       | Description              | Status Codes    |
+|--------|---------------|--------------------------|----------------|
+| GET    | `/`           | Welcome message          | 200           |
+| GET    | `/posts`      | Retrieve all posts       | 200           |
+| POST   | `/posts`      | Create a new post        | 201, 400      |
+| GET    | `/posts/{id}` | Retrieve a specific post | 200, 404      |
+| PUT    | `/posts/{id}` | Update a specific post   | 200, 404      |
+| DELETE | `/posts/{id}` | Delete a specific post   | 204, 404      |
 
-## Environment Variables
+## Development
 
-- Create a `.env` file to store sensitive information like database credentials:
-  ```
-  DATABASE_URL=postgresql://<username>:<password>@<host>/<database_name>
-  ```
+### Running Tests
+```bash
+pytest tests/
+```
 
-## License
+### Code Formatting
+```bash
+black app/
+isort app/
+```
 
-This project is licensed under the MIT License.
+## Error Handling
+
+The API implements proper error handling for:
+- Database connection errors
+- Invalid request data
+- Resource not found
+- Authentication errors (if implemented)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request

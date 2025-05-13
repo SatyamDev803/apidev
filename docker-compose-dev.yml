@@ -1,7 +1,7 @@
-version: "3"
 services:
   api:
     build: .
+    image: apidev
     ports:
       - 8000:8000
     volumes:

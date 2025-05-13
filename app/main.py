@@ -35,7 +35,7 @@ app.include_router(vote.router)
 
 @app.get("/")
 def root():
-    return {"message": "Hello World!!! This is backend api development environment and using RENDER API to trigger the CI CD pipeline"}
+    return {"message": "Hello World! This is CI CD pipeline development"}
 
 
 

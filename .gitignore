@@ -69,7 +69,6 @@ nginx/
 deploy/
 
 # Docker configuration files 
-Dockerfile
 docker-compose*.yml
 .docker/
 

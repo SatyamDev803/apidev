@@ -3,10 +3,7 @@ FROM python:3.12.3-slim-bullseye
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    # pip
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_NO_CACHE_DIR=off
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -16,7 +13,7 @@ RUN addgroup --system app && adduser --system --group app
 
 # Install system dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc python3-dev libpq-dev \
+    && apt-get install -y --no-install-recommends gcc python3-dev libpq-dev curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies

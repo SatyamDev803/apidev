@@ -69,8 +69,8 @@ nginx/
 deploy/
 
 # Docker configuration files 
-docker-compose*.yml
 .docker/
+# docker-compose*.yml is now tracked in git for easier deployment
 
 # Temporary files
 *.bak

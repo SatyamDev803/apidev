@@ -1,0 +1,56 @@
+# Version Control
+.git
+.gitignore
+.github
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+tests/
+README.md
+NOTES.md
+docker-compose*.yml
+nginx/
+*.log
+logs/
+postgres-db/
+docs/
+deploy/
+render.yaml
+.dockerignore
+.env*
+
+# Docker
+.docker/
+docker-compose-dev.yml
+docker-compose-prod.yml

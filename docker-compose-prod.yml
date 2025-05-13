@@ -3,7 +3,6 @@ services:
     image: velocityy/apidev
     ports:
       - 8000:8000
-    platform: linux/arm64  # Newly added
     environment:
       - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
       - DATABASE_PORT=${DATABASE_PORT}

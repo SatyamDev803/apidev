@@ -1,37 +1,11 @@
 services:
   - type: web
+    runtime: python
     name: apidev
-    env: python
-    buildCommand: |
-      pip install -r requirements.txt &&
-      alembic upgrade head
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    region: oregon
+    buildCommand: pip install -r requirements.txt && alembic upgrade head
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 4
     plan: free
     branch: main
     autoDeploy: true
-    envVars:
-      - key: DATABASE_URL
-        value: postgresql://apidev_db_user:bMlQky80TCZntt7GSY6h8ivnulkKP5Eu@dpg-d0ebos6uk2gs73fb1oqg-a.oregon-postgres.render.com/apidev_db
-      - key: DATABASE_HOSTNAME
-        value: dpg-d0ebos6uk2gs73fb1oqg-a.oregon-postgres.render.com
-      - key: DATABASE_PORT
-        value: 5432
-      - key: DATABASE_NAME
-        value: apidev_db
-      - key: DATABASE_USERNAME
-        value: apidev_db_user
-      - key: DATABASE_PASSWORD
-        value: bMlQky80TCZntt7GSY6h8ivnulkKP5Eu
-      - key: SECRET_KEY
-        value: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-      - key: ALGORITHM
-        value: "HS256"
-      - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: "60"
-
-  - type: postgres
-    name: apidev-db
-    plan: free
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: allow external connections
+    healthCheckPath: /docs

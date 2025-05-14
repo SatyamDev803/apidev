@@ -3,9 +3,19 @@
 .gitignore
 .github
 
-# Python
+# Python cache files
 __pycache__/
+*/__pycache__/
+*/*/__pycache__/
 *.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
 *$py.class
 *.so
 .Python

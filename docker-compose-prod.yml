@@ -5,7 +5,7 @@ services:
       - 8000:8000
     environment:
       - DATABASE_HOSTNAME=postgres
-      - DATABASE_PORT=5432
+      - DATABASE_PORT=${DATABASE_PORT}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
@@ -22,7 +22,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_DB=${DATABASE_NAME}
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres-prod-db:/var/lib/postgresql/data
 
 volumes:
-  postgres-db:
+  postgres-prod-db:

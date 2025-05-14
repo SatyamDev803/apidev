@@ -1,7 +1,8 @@
 from fastapi import Depends, HTTPException, status
 import jwt
 from jwt.exceptions import PyJWTError
-from datetime import datetime, timedelta
+import datetime
+from datetime import timedelta
 
 from sqlalchemy.orm import Session
 from app import models
@@ -27,7 +28,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 def create_access_token(data: dict):
     to_encode = data.copy()
     to_encode["user_id"] = str(to_encode["user_id"])  # Ensure user_id is a string
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.datetime.now(datetime.UTC) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
 
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)

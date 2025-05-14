@@ -52,6 +52,12 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
       
+      - name: Echo DB info
+        run: |
+          echo "DATABASE_NAME=${{ secrets.DATABASE_NAME }}"
+          echo "Will connect to DB=${{ secrets.DATABASE_NAME }}_test"
+          pg_isready -h localhost -p 5432 -U ${{ secrets.DATABASE_USERNAME }}
+
       - name: Wait for PostgreSQL to be ready
         run: |
           echo "Waiting for PostgreSQL to be ready..."

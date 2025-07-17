@@ -1,6 +1,12 @@
-# Full Stack Social Media Platform with FastAPI and Next.js
+# ConnectHub - Social Media Platform
 
-This project is a full-stack social media platform built using **FastAPI** for the backend API and **Next.js** for the frontend. It provides a modern, scalable architecture for managing posts, users, authentication, and interactive features.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql)](https://www.postgresql.org/)
+
+**ConnectHub** is a modern, full-stack social media platform built using **FastAPI** for the backend API and **Next.js** for the frontend. It provides a scalable architecture for managing posts, user interactions, and real-time engagement features. ConnectHub enables users to share thoughts, connect with others, and engage with content in a seamless, user-friendly environment.
 
 ## Technology Stack
 
